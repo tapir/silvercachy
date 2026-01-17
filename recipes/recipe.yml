@@ -62,7 +62,7 @@ modules:
   # Sign kernel and modules
   - type: script
     env:
-      CERT: /usr/share/silvercachy/MOK.der
+      CERT: /usr/share/silvercachy/MOK.pem
     secrets:
       - type: file
         source: ./MOK.priv

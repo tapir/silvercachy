@@ -20,6 +20,7 @@ sudo sed -i '/^\[fedora\]/a exclude=akmods' /etc/yum.repos.d/fedora.repo
 sudo sed -i '/^\[updates\]/a exclude=akmods' /etc/yum.repos.d/fedora-updates.repo
 dnf -y copr enable bieszczaders/kernel-cachyos-lto
 dnf install -y --setopt=install_weak_deps=False \
+    akmods \
     kernel-cachyos-lto \
     kernel-cachyos-lto-core \
     kernel-cachyos-lto-devel-matched \

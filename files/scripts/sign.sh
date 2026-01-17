@@ -35,17 +35,38 @@ SIGN_FILE=$(find /usr/src -name sign-file | head -n 1)
 # 4. Sign all modules (including extras)
 MODULE_ROOT="/usr/lib/modules/$KVER"
 
-echo "Recursively signing modules in $MOD_DIR..."
-find "$MODULE_ROOT" -name "*.ko.xz" -type f | while read -r mod; do
-    # Decompress
-    xz -d "$mod"
-    RAW_MOD="${mod%.xz}"
-    
-    # Sign
-    "$SIGN_FILE" sha256 "$KEY" "$CERT" "$RAW_MOD"
-    
-    # Recompress
-    xz "$RAW_MOD"
+echo "Recursively signing modules in $MODULE_ROOT..."
+find "$MODULE_ROOT" -type f \( \
+    -name "*.ko" \
+    -o -name "*.ko.xz" \
+    -o -name "*.ko.zst" \
+    -o -name "*.ko.gz" \
+\) -print0 | while IFS= read -r -d '' mod; do
+    echo "Signing $mod"
+
+    case "$mod" in
+        *.ko)
+            "$SIGN_FILE" sha256 /tmp/certs/MOK.priv /usr/share/silvercachy/MOK.pem "$mod"
+            ;;
+        *.ko.xz)
+            xz -d "$mod"
+            raw="${mod%.xz}"
+            "$SIGN_FILE" sha256 /tmp/certs/MOK.priv /usr/share/silvercachy/MOK.pem "$raw"
+            xz -z "$raw"
+            ;;
+        *.ko.zst)
+            zstd -d --rm "$mod"
+            raw="${mod%.zst}"
+            "$SIGN_FILE" sha256 /tmp/certs/MOK.priv /usr/share/silvercachy/MOK.pem "$raw"
+            zstd -q "$raw"
+            ;;
+        *.ko.gz)
+            gunzip "$mod"
+            raw="${mod%.gz}"
+            "$SIGN_FILE" sha256 /tmp/certs/MOK.priv /usr/share/silvercachy/MOK.pem "$raw"
+            gzip "$raw"
+            ;;
+    esac
 done
 
 echo "Successfully signed kernel and modules for $KVER"

@@ -6,7 +6,7 @@ set -ouex pipefail
 KERNEL_VERSION="$(rpm -q "kernel-cachyos-lto" --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')"
 
 # Necessary packages to compile kmod
-dnf install -y --setopt=install_weak_deps=False akmods
+# dnf install -y --setopt=install_weak_deps=False akmods
 
 # Add Negativo17 repo
 curl -fLsS --retry 5 -o /etc/yum.repos.d/fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
