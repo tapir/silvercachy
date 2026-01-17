@@ -29,6 +29,10 @@ jobs:
           # !! Add your recipes here
           - recipe.yml
     steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
       - name: Write kernel signing key
         shell: bash
         env:
