@@ -1,7 +1,7 @@
 # SilverCachy &nbsp; [![bluebuild build badge](https://github.com/tapir/silvercachy/actions/workflows/build.yml/badge.svg)](https://github.com/tapir/silvercachy/actions/workflows/build.yml)
 
 A `BlueBuild` image based on their `fedora-silverblue-main` image. It mainly adds the `CachyOS ThinLTO` kernel and builds `Nvidia` for it.
-Kernel and the modules are signed with my MOK key which will be automatically enrolled after the first boot. Use password `silvercachy` when asked.
+Kernel and the modules are signed with my MOK key which will be automatically enrolled after the first boot. Use password `scachy` when asked.
 
 ## Changes
 
