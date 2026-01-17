@@ -21,7 +21,8 @@ dnf install -y --setopt=install_weak_deps=False \
     kernel-cachyos-lto \
     kernel-cachyos-lto-core \
     kernel-cachyos-lto-devel-matched \
-    kernel-cachyos-lto-modules
+    kernel-cachyos-lto-modules \
+    kernel-cachyos-lto-nvidia-open 
 dnf -y copr remove bieszczaders/kernel-cachyos-lto
 
 # Restore kernel install files
