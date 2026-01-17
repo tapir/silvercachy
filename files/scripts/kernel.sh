@@ -29,3 +29,6 @@ dnf -y copr remove bieszczaders/kernel-cachyos-lto
 mv -f 05-rpmostree.install.bak 05-rpmostree.install \
     && mv -f 50-dracut.install.bak 50-dracut.install \
     && cd -
+
+# Update kernel version for dracut
+echo "kernel_version=\"$(rpm -q kernel-cachyos-lto --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n')\"" > /usr/lib/dracut/dracut.conf.d/99-kver.conf
