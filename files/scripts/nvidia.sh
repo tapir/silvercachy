@@ -9,11 +9,14 @@ KERNEL_VERSION="$(rpm -q "kernel-cachyos-lto" --queryformat '%{VERSION}-%{RELEAS
 dnf install -y --setopt=install_weak_deps=False akmods
 
 # Add Negativo17 repo
-curl -fLsS --retry 5 -o /etc/yum.repos.d/fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia-580.repo
+curl -fLsS --retry 5 -o /etc/yum.repos.d/fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
 sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/fedora-nvidia.repo
 
 # Kmod source
+cp /usr/sbin/akmodsbuild /usr/sbin/akmodsbuild.backup
+sed -i '/if \[\[ -w \/var \]\] ; then/,/fi/d' /usr/sbin/akmodsbuild
 dnf install -y --setopt=install_weak_deps=False --setopt=tsflags=noscripts akmod-nvidia nvidia-kmod-common nvidia-modprobe
+mv /usr/sbin/akmodsbuild.backup /usr/sbin/akmodsbuild
 
 # Compile
 akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
