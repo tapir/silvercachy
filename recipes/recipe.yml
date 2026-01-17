@@ -59,6 +59,19 @@ modules:
     snippets:
       - cp /usr/lib/modprobe.d/nvidia-modeset.conf /etc/modprobe.d/nvidia-modeset.conf
 
+  # Sign kernel and modules
+  - type: script
+    env:
+      CERT: /usr/share/silvercachy/MOK.der
+    secrets:
+      - type: file
+        source: ./MOK.priv
+        mount: 
+          type: file
+          destination: /tmp/certs/MOK.priv
+    scripts:
+      - sign.sh
+
   # Re-build initramfs
   - type: script
     scripts:

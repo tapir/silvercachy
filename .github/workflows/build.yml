@@ -29,6 +29,14 @@ jobs:
           # !! Add your recipes here
           - recipe.yml
     steps:
+      - name: Write kernel signing key
+        shell: bash
+        env:
+          KERNEL_SECRET: ${{ secrets.KERNEL_SECRET }}
+        run: |
+          printf '%s\n' "$KERNEL_SECRET" > MOK.priv
+          chmod 600 MOK.priv
+
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
         uses: blue-build/github-action@v1.10
