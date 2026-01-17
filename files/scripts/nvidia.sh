@@ -15,7 +15,7 @@ sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/fedora-nvidia.repo
 # Kmod source
 cp /usr/sbin/akmodsbuild /usr/sbin/akmodsbuild.backup
 sed -i '/if \[\[ -w \/var \]\] ; then/,/fi/d' /usr/sbin/akmodsbuild
-dnf install -y --setopt=install_weak_deps=False akmod-nvidia nvidia-kmod-common nvidia-modprobe
+dnf install -y --setopt=install_weak_deps=False --setopt=tsflags=noscripts akmod-nvidia nvidia-kmod-common nvidia-modprobe
 mv /usr/sbin/akmodsbuild.backup /usr/sbin/akmodsbuild
 
 # Compile
