@@ -18,10 +18,8 @@ modules:
         - firefox-langpacks
         - htop
         - nvtop
-        - dconf-editor
         - gnome-software
         - gnome-tour
-        - gnome-terminal
         - ptyxis
         - gnome-system-monitor
         - malcontent-control
@@ -62,8 +60,8 @@ modules:
       - cp /usr/lib/modprobe.d/nvidia-modeset.conf /etc/modprobe.d/nvidia-modeset.conf
 
   # Re-build initramfs
-  - type: initramfs
-    env:
-      DRACUT_NO_XATTR: '1'
+  - type: script
+    scripts:
+      - initramfs.sh
 
   - type: signing
