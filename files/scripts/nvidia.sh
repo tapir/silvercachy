@@ -9,7 +9,7 @@ KERNEL_VERSION="$(rpm -q "kernel-cachyos-lto" --queryformat '%{VERSION}-%{RELEAS
 dnf install -y --setopt=install_weak_deps=False akmods
 
 # Add Negativo17 repo
-curl -fLsS --retry 5 -o /etc/yum.repos.d/fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
+curl -fLsS --retry 5 -o /etc/yum.repos.d/fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia-580.repo
 sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/fedora-nvidia.repo
 
 # Kmod source
@@ -19,7 +19,11 @@ dnf install -y --setopt=install_weak_deps=False --setopt=tsflags=noscripts akmod
 akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
 
 # Check if everything went ok
-modinfo /usr/lib/modules/${KERNEL_VERSION}/extra/nvidia/nvidia{,-drm,-modeset,-peermem,-uvm}.ko.xz > /dev/null || (cat "/var/cache/akmods/nvidia/*.failed.log" && exit 1)
+modinfo /usr/lib/modules/${KERNEL_VERSION}/extra/nvidia/nvidia{,-drm,-modeset,-peermem,-uvm}.ko.xz >/dev/null || {
+    echo "NVIDIA modules missing for kernel ${KERNEL_VERSION}"
+    find /var/cache/akmods/nvidia -name '*.log' -exec cat {} + 2>/dev/null || true
+    exit 1
+}
 
 # Install userspace with multilibs
 dnf install -y --setopt=install_weak_deps=False \
