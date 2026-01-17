@@ -42,10 +42,10 @@ modules:
     scripts:
       - kernel.sh
 
-  # Compile Nvidia module for CachyOS kernel and install userspace packages
+  # Compile kernel module and install Nvidia userspace packages and settings
   - type: script
     scripts:
-      - nvidia-fusion.sh
+      - nvidia.sh
 
   # Setup for Nvidia
   - type: kargs
