@@ -41,7 +41,7 @@ Kernel and the modules are signed with my MOK key which will be automatically en
 - Accept MOK key enrollment with password `scachy`
 - Then rebase to the signed image:
   ```
-  bootc switch --enforce-container-signature ghcr.io/tapir/silvercachy:latest
+  bootc switch --enforce-container-sigpolicy ghcr.io/tapir/silvercachy:latest
   systemctl reboot
   ```
 - Enable `secureboot` back
