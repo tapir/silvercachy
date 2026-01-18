@@ -51,5 +51,4 @@ jobs:
           file_pattern: .upstream-digest
           commit_user_name: upstream-watcher
           commit_user_email: upstream-watcher@users.noreply.github.com
-        env:
-          GITHUB_TOKEN: ${{ secrets.UPSTREAM_WATCH_PAT }}
+          token: ${{ secrets.UPSTREAM_WATCH_PAT }}
