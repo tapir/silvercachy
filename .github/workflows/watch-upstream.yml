@@ -16,22 +16,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install skopeo + jq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y skopeo jq
+        with:
+          persist-credentials: false
 
       - name: Read previous digest
         id: prev
         run: |
           echo "prev=$(cat .upstream-digest 2>/dev/null || true)" >> $GITHUB_OUTPUT
 
-      - name: Fetch current upstream digest
+      - name: Fetch current upstream digest (no apt, fast)
         id: cur
         run: |
-          cur=$(skopeo inspect docker://ghcr.io/blue-build/base-images/fedora-silverblue:latest \
-            | jq -r '.Digest')
+          cur=$(docker manifest inspect ghcr.io/blue-build/base-images/fedora-silverblue:latest \
+            | grep '"digest"' | head -n1 | cut -d'"' -f4)
           echo "cur=$cur" >> $GITHUB_OUTPUT
 
       - name: Compare digests
@@ -50,5 +47,9 @@ jobs:
       - name: Commit updated digest
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: bump upstream fedora-silverblue digest"
+          commit_message: "chore(upstream): bump fedora-silverblue digest"
           file_pattern: .upstream-digest
+          commit_user_name: upstream-watcher
+          commit_user_email: upstream-watcher@users.noreply.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.UPSTREAM_WATCH_PAT }}
