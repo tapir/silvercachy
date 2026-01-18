@@ -18,18 +18,18 @@ Kernel and the modules are signed with my MOK key which will be automatically en
   - `gnome-disk-utility`
   - `gnome-color-manager`
   - `yelp`
+- Replace `tuned` with `powerpower-profiles-daemon`
 - Install `Bazaar` (App Store) and `Ptyxis` (Terminal) at firstboot to have a minimal set of applications where you can install other applications
 - Install `CachyOS-LTO` kernel
 - Install latest `Nvidia` drivers from Negativo17
+- Install `CachyOS Addons`
 - Enroll `silvercachy` MOK
 - Sign kernel and modules
-- **TODO:** Install `CachyOS Addons`
 - **TODO:** Make use of more `BlueBuild` modules like `akmods` instead of custom scripts
 
 ## Installation
 
-To rebase an existing atomic Fedora installation to the latest build:
-
+- Disable `secureboot` from BIOS
 - First rebase to the unsigned image, to get the proper signing keys and policies installed:
   ```
   rpm-ostree rebase ostree-unverified-registry:ghcr.io/tapir/silvercachy:latest
@@ -38,7 +38,8 @@ To rebase an existing atomic Fedora installation to the latest build:
   ```
   systemctl reboot
   ```
-- Then rebase to the signed image, like so:
+- Accept MOK key enrollment with password `scachy`
+- Then rebase to the signed image:
   ```
   rpm-ostree rebase ostree-image-signed:docker://ghcr.io/tapir/silvercachy:latest
   ```
@@ -46,6 +47,7 @@ To rebase an existing atomic Fedora installation to the latest build:
   ```
   systemctl reboot
   ```
+- Enable `secureboot` back
 
 The `latest` tag will automatically point to the latest build. That build will still always use the Fedora version specified in `recipe.yml`, so you won't get accidentally updated to the next major version.
 

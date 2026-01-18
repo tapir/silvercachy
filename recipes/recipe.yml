@@ -9,11 +9,13 @@ modules:
       - source: system
         destination: /
 
-  # Most of these should be used through flatpaks
+  # Minimal base image without extra GUI or CLI tools
   - type: dnf
     remove:
       auto-remove: true
       packages:
+        - tuned
+        - tuned-ppd
         - firefox
         - firefox-langpacks
         - htop
@@ -26,6 +28,10 @@ modules:
         - gnome-disk-utility
         - gnome-color-manager
         - yelp
+    install:
+      skip-unavailable: true
+      packages:
+        - power-profiles-daemon
 
   # Minimal set of apps to be able to install other apps
   - type: default-flatpaks
@@ -54,10 +60,9 @@ modules:
       - modprobe.blacklist=nouveau
       - nvidia-drm.modeset=1
       - nvidia-drm.fbdev=1
-
-  - type: script
-    snippets:
-      - cp /usr/lib/modprobe.d/nvidia-modeset.conf /etc/modprobe.d/nvidia-modeset.conf
+  
+  #CachyOS Addons
+  - from-file: cachyos.yml
 
   # Firstboot MOK enroll
   - type: systemd
