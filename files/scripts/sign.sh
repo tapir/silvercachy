@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-set -ouex pipefail
+set -oue pipefail
 
-# Configuration
-KEY="/tmp/certs/MOK.priv"
-
-# 1. Dynamically find the kernel version from the installed RPM
+# Dynamically find the kernel version from the installed RPM
 KVER="$(rpm -q --queryformat="%{evr}.%{arch}" kernel-cachyos-lto)"
 
 if [ -z "$KVER" ]; then
@@ -15,8 +12,7 @@ fi
 
 echo "Detected Kernel Version: $KVER"
 
-# 2. Path to the Kernel Image in an OSTree build
-# In OSTree systems, the kernel image is moved to the module directory
+# Path to the Kernel Image in an OSTree build
 VMLINUZ="/usr/lib/modules/$KVER/vmlinuz"
 
 if [ -f "$VMLINUZ" ]; then
@@ -27,15 +23,15 @@ else
     exit 1
 fi
 
-# 3. Find the signing utility
-# Fedora/OSTree usually puts this in the kernel-devel or kernel-modules-internal package
+# Find the signing utility
 SIGN_FILE=$(find /usr/src -name sign-file | head -n 1)
 [ -z "$SIGN_FILE" ] && SIGN_FILE="/usr/lib/modules/$KVER/build/scripts/sign-file"
 
-# 4. Sign all modules (including extras)
+# Sign all modules (including extras)
 MODULE_ROOT="/usr/lib/modules/$KVER"
 
 echo "Recursively signing modules in $MODULE_ROOT..."
+
 find "$MODULE_ROOT" -type f \( \
     -name "*.ko" \
     -o -name "*.ko.xz" \

@@ -17,3 +17,7 @@ modules:
         - cachyos-settings
         - scx-scheds
         - scx-tools
+
+  - type: script
+    snippets:
+      - "rm /usr/bin/game-performance"
