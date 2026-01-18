@@ -27,11 +27,10 @@ Kernel and the modules are signed with my MOK key which will be automatically en
   - `scx-scheds`
   - `scx-tools`
 - Replace `tuned` with `powerpower-profiles-daemon`
-- **TODO:** Make use of more `BlueBuild` modules like `akmods` instead of custom scripts
 
 ## Installation
 
-- Disable `secureboot` from BIOS
+- Disable `secureboot` from BIOS and boot to an atomic distro
 - First rebase to the unsigned image, to get the proper signing keys and policies installed:
   ```
   rpm-ostree rebase ostree-unverified-registry:ghcr.io/tapir/silvercachy:latest
