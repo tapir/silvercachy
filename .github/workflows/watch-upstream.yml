@@ -14,22 +14,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (with PAT)
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.UPSTREAM_WATCH_PAT }}
           persist-credentials: true
+
+      - name: Install skopeo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y skopeo
 
       - name: Read previous digest
         id: prev
         run: |
           echo "prev=$(cat .upstream-digest 2>/dev/null || true)" >> $GITHUB_OUTPUT
 
-      - name: Fetch current upstream digest (no apt, fast)
+      - name: Fetch current upstream image digest (REAL latest)
         id: cur
         run: |
-          cur=$(docker manifest inspect ghcr.io/blue-build/base-images/fedora-silverblue:latest \
-            | grep '"digest"' | head -n1 | cut -d'"' -f4)
+          cur=$(skopeo inspect docker://ghcr.io/blue-build/base-images/fedora-silverblue:latest \
+            --format '{{.Digest}}')
           echo "cur=$cur" >> $GITHUB_OUTPUT
 
       - name: Compare digests
