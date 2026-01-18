@@ -1,0 +1,54 @@
+name: Watch upstream BlueBuild base image
+
+on:
+  schedule:
+    - cron: "15 05 * * *" # once per day
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    name: Check fedora-silverblue upstream digest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install skopeo + jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y skopeo jq
+
+      - name: Read previous digest
+        id: prev
+        run: |
+          echo "prev=$(cat .upstream-digest 2>/dev/null || true)" >> $GITHUB_OUTPUT
+
+      - name: Fetch current upstream digest
+        id: cur
+        run: |
+          cur=$(skopeo inspect docker://ghcr.io/blue-build/base-images/fedora-silverblue:latest \
+            | jq -r '.Digest')
+          echo "cur=$cur" >> $GITHUB_OUTPUT
+
+      - name: Compare digests
+        run: |
+          echo "Previous: ${{ steps.prev.outputs.prev }}"
+          echo "Current:  ${{ steps.cur.outputs.cur }}"
+
+          if [ "${{ steps.prev.outputs.prev }}" = "${{ steps.cur.outputs.cur }}" ]; then
+            echo "No upstream change"
+            exit 0
+          fi
+
+          echo "Upstream changed"
+          echo "${{ steps.cur.outputs.cur }}" > .upstream-digest
+
+      - name: Commit updated digest
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: bump upstream fedora-silverblue digest"
+          file_pattern: .upstream-digest
