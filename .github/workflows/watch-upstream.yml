@@ -17,7 +17,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          token: ${{ secrets.UPSTREAM_WATCH_PAT }}
+          persist-credentials: true
 
       - name: Read previous digest
         id: prev
@@ -51,4 +52,3 @@ jobs:
           file_pattern: .upstream-digest
           commit_user_name: upstream-watcher
           commit_user_email: upstream-watcher@users.noreply.github.com
-          token: ${{ secrets.UPSTREAM_WATCH_PAT }}
