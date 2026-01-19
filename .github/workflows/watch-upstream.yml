@@ -51,7 +51,7 @@ jobs:
           echo "${{ steps.cur.outputs.cur }}" > .upstream-digest
 
       - name: Commit updated digest
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore(upstream): bump fedora-silverblue digest"
           file_pattern: .upstream-digest
