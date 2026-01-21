@@ -24,9 +24,10 @@ Kernel and the modules are signed with my MOK key which will be automatically en
   - `kernel-cachyos-lto` kernel
   - `Nvidia` drivers from Negativo17
   - `cachyos-settings`
-  - `gamemode`
   - `scx-scheds`
   - `scx-tools`
+  - `gamemode`
+  - `adw-gtk3-theme`
 
 `game-performance` script from `cachyos-settings` is removed due it's dependency on `power-profile-daemon`. Fedora uses `tuned` instead which looks like is the future. Also it's not easy to run `game-performance` from Steam's flatpak version. Just use `gamemoderun`. Should do the same trick.
 

@@ -33,6 +33,7 @@ modules:
       skip-unavailable: true
       packages:
         - gamemode
+        - adw-gtk3-theme
 
   # Minimal set of apps to be able to install other apps
   - type: default-flatpaks
@@ -49,6 +50,12 @@ modules:
   
   # Nvidia modules and userspace
   - from-file: nvidia.yml
+
+  # Podman socket, needed for VSCode remote toolbox access
+  - type: systemd
+    system:
+      enabled:
+        - podman.socket
 
   # Firstboot MOK enroll
   - type: systemd
