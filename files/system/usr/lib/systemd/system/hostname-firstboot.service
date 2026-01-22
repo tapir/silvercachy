@@ -1,0 +1,14 @@
+[Unit]
+Description=Set Static Hostname on First Boot
+ConditionPathExists=!/var/lib/silvercachy/.hostname-set-once
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/hostnamectl set-hostname silvercachy
+ExecStartPost=/usr/bin/mkdir -p /var/lib/silvercachy
+ExecStartPost=/usr/bin/touch /var/lib/silvercachy/.hostname-set-once
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

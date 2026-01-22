@@ -52,17 +52,13 @@ modules:
   # Nvidia modules and userspace
   - from-file: nvidia.yml
 
-  # Podman socket, needed for VSCode remote toolbox access
+  # Needed services
   - type: systemd
     system:
       enabled:
         - podman.socket
-
-  # Firstboot MOK enroll
-  - type: systemd
-    system:
-      enabled:
         - mok-enroll-firstboot.service
+        - hostname-firstboot.service
 
   # Sign kernel and modules recursively
   - type: script
@@ -82,5 +78,13 @@ modules:
   - type: script
     scripts:
       - initramfs.sh
+
+  # Set OS name
+  - type: os-release
+    properties:
+      ID: silvercachy
+      ID_LIKE: fedora
+      NAME: SilverCachy
+      PRETTY_NAME: SilverCachy - Fedora Silverblue with CachyOS Kernel
 
   - type: signing

@@ -6,10 +6,10 @@ After=local-fs.target
 
 [Service]
 Type=oneshot
-RemainAfterExit=yes
 ExecStart=/bin/sh -c '(echo "scachy"; echo "scachy") | mokutil --import /usr/share/silvercachy/MOK.der'
 ExecStartPost=/usr/bin/mkdir -p /var/lib/silvercachy
 ExecStartPost=/usr/bin/touch /var/lib/silvercachy/.mok-enrolled
+RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
