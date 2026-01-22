@@ -18,6 +18,7 @@ Kernel and the modules are signed with my MOK key which will be automatically en
   - `gnome-disk-utility`
   - `gnome-color-manager`
   - `yelp`
+  - `gnome-shell-extension-background-logo`
 - Install:
   - `Bazaar` flatpak (App Store)
   - `Ptyxis` flatpak (Terminal)

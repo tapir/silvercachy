@@ -29,6 +29,7 @@ modules:
         - gnome-disk-utility
         - gnome-color-manager
         - yelp
+        - gnome-shell-extension-background-logo
     install:
       skip-unavailable: true
       packages:
