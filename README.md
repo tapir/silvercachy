@@ -1,7 +1,8 @@
 # SilverCachy &nbsp; [![bluebuild build badge](https://github.com/tapir/silvercachy/actions/workflows/build.yml/badge.svg)](https://github.com/tapir/silvercachy/actions/workflows/build.yml)
 
-A `BlueBuild` image based on their `fedora-silverblue` image. It mainly adds the `CachyOS ThinLTO` kernel and builds `Nvidia` for it.
-Kernel and the modules are signed with my MOK key which will be automatically enrolled after the first boot. Use password `scachy` when asked.
+A `BlueBuild` image based on Fedora Silverblue. It primarily adds the `CachyOS LTO` kernel and builds `NVIDIA` drivers specifically for that kernel. The image deliberately avoids opinionated defaults: aside from a terminal and a software store, no applications are preinstalled. All RPM-based desktop applications are removed so users are expected to install their Flatpak counterparts instead.
+
+The kernel and all modules are signed with my `MOK` key. On secure boot systems the key will be automatically enrolled on first boot; use the password `scachy` when prompted.
 
 ## Changes
 
@@ -12,25 +13,27 @@ Kernel and the modules are signed with my MOK key which will be automatically en
   - `nvtop`
   - `gnome-software`
   - `gnome-tour`
-  - `ptyxis`
   - `gnome-system-monitor`
-  - `malcontent-control`
   - `gnome-disk-utility`
   - `gnome-color-manager`
-  - `yelp`
   - `gnome-shell-extension-background-logo`
+  - `malcontent-control`
+  - `ptyxis`
+  - `yelp`
+
 - Install:
+  - `AppIndicator and KStatusNotifierItem Support` shell extension
   - `Bazaar` flatpak (App Store)
   - `Ptyxis` flatpak (Terminal)
   - `kernel-cachyos-lto` kernel
-  - `Nvidia` drivers from Negativo17
+  - `nvidia` drivers from Negativo17
   - `cachyos-settings`
   - `scx-scheds`
   - `scx-tools`
   - `gamemode`
   - `adw-gtk3-theme`
 
-`game-performance` script from `cachyos-settings` is removed due it's dependency on `power-profile-daemon`. Fedora uses `tuned` instead which looks like is the future. Also it's not easy to run `game-performance` from Steam's flatpak version. Just use `gamemoderun`. Should do the same trick.
+Note that `game-performance` script from `cachyos-settings` is removed due it's dependency on `power-profile-daemon`. Fedora uses `tuned` instead which looks like is the future. Also it's not easy to run `game-performance` from Steam's flatpak version. Just use `gamemoderun`. Should do the same trick.
 
 ## Installation
 

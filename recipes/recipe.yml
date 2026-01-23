@@ -36,6 +36,11 @@ modules:
         - gamemode
         - adw-gtk3-theme
 
+  # AppIndicator and KStatusNotifierItem Support
+  - type: gnome-extensions
+    install:
+      - 615 
+
   # Minimal set of apps to be able to install other apps
   - type: default-flatpaks
     configurations:
