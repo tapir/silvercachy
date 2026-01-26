@@ -51,6 +51,11 @@ modules:
           - app.devsuite.Ptyxis
       - scope: user
 
+  # Expose audio group to users
+  - type: script
+    snippets:
+      - 'grep -E "^audio:" /usr/lib/group >> /etc/group'
+
   # CachyOS Addons
   - from-file: cachyos.yml
   
@@ -62,6 +67,7 @@ modules:
     system:
       enabled:
         - podman.socket
+        - flatpak-settings-firstboot.service
         - mok-enroll-firstboot.service
         - hostname-firstboot.service
 

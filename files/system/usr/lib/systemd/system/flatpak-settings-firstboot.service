@@ -1,0 +1,15 @@
+[Unit]
+Description=Flatpak GTK overrides and masks on first boot
+After=flatpak-system-helper.service
+ConditionPathExists=!/var/lib/flatpak/.firstboot-overrides-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/flatpak override --system --filesystem=xdg-data/themes
+ExecStart=/usr/bin/flatpak mask org.gtk.Gtk3theme.adw-gtk3
+ExecStart=/usr/bin/flatpak mask org.gtk.Gtk3theme.adw-gtk3-dark
+ExecStart=/usr/bin/touch /var/lib/flatpak/.firstboot-overrides-done
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
