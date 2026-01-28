@@ -6,7 +6,14 @@ ConditionPathExists=!/var/lib/silvercachy/.flatpak-firstboot.done
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/flatpak install -y --system io.github.kolunmi.Bazaar app.devsuite.Ptyxis org.gtk.Gtk3theme.adw-gtk3-dark org.gtk.Gtk3theme.adw-gtk3
+ExecStart=/usr/bin/flatpak install -y --system \
+    io.github.kolunmi.Bazaar \
+    app.devsuite.Ptyxis \
+    org.gtk.Gtk3theme.adw-gtk3-dark \
+    org.gtk.Gtk3theme.adw-gtk3
+ExecStart=/usr/bin/flatpak override --system --filesystem=xdg-data/themes
+ExecStart=/usr/bin/flatpak mask org.gtk.Gtk3theme.adw-gtk3
+ExecStart=/usr/bin/flatpak mask org.gtk.Gtk3theme.adw-gtk3-dark
 ExecStartPost=/usr/bin/mkdir -p /var/lib/silvercachy
 ExecStartPost=/usr/bin/touch /var/lib/silvercachy/.flatpak-firstboot.done
 RemainAfterExit=yes

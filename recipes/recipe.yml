@@ -57,7 +57,6 @@ modules:
     system:
       enabled:
         - podman.socket
-        - adw-gtk3-firstboot.service
         - flatpak-firstboot.service
         - hostname-firstboot.service
         - mok-enroll-firstboot.service
