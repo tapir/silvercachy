@@ -4,8 +4,6 @@ modules:
   - type: script
     snippets:
     - |
-      sed -i '/^\[fedora\]/a exclude=akmods' /etc/yum.repos.d/fedora.repo
-      sed -i '/^\[updates\]/a exclude=akmods' /etc/yum.repos.d/fedora-updates.repo
       mv /usr/lib/kernel/install.d/05-rpmostree.install /usr/lib/kernel/install.d/05-rpmostree.install.bak
       mv /usr/lib/kernel/install.d/50-dracut.install /usr/lib/kernel/install.d/50-dracut.install.bak
       printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/05-rpmostree.install
@@ -21,7 +19,6 @@ modules:
     remove:
       auto-remove: false
       packages:
-        - akmods
         - kernel
         - kernel-core
         - kernel-modules
@@ -33,7 +30,6 @@ modules:
     install:
       skip-unavailable: true
       packages:
-        - akmods
         - kernel-cachyos-lto
         - kernel-cachyos-lto-core
         - kernel-cachyos-lto-modules

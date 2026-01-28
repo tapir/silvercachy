@@ -35,11 +35,6 @@ modules:
         - libnvidia-ml.i686
         - libnvidia-gpucomp.i686
         - nvidia-container-toolkit
-    remove:
-        packages:
-          - nvidia-kmod-common
-          - akmod-nvidia
-          - akmods
 
   - type: script
     snippets:
