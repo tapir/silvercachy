@@ -3,7 +3,6 @@
 modules:
   - type: dnf
     repos:
-      cleanup: true
       files:
         - https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo
         - https://negativo17.org/repos/fedora-nvidia.repo
@@ -47,6 +46,8 @@ modules:
       - |
         semodule -i /usr/share/silvercachy/nvidia-container.pp
         rm -f /usr/share/silvercachy/nvidia-container.pp
+        rm -f /etc/yum.repos.d/fedora-nvidia.repo
+        rm -f /etc/yum.repos.d/nvidia-container-toolkit.repo
       
   - type: kargs
     kargs:
