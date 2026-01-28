@@ -41,16 +41,6 @@ modules:
     install:
       - 615 
 
-  # Minimal set of apps to be able to install other apps
-  - type: default-flatpaks
-    configurations:
-      - notify: true
-        scope: system
-        install:
-          - io.github.kolunmi.Bazaar
-          - app.devsuite.Ptyxis
-      - scope: user
-
   # Expose audio group to users
   - type: script
     snippets:
@@ -67,9 +57,10 @@ modules:
     system:
       enabled:
         - podman.socket
-        - flatpak-settings-firstboot.service
-        - mok-enroll-firstboot.service
+        - adw-gtk3-firstboot.service
+        - flatpak-firstboot.service
         - hostname-firstboot.service
+        - mok-enroll-firstboot.service
 
   # Sign kernel and modules recursively
   - type: script

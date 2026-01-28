@@ -1,5 +1,5 @@
 [Unit]
-Description=Enroll Silvercachy MOK on first boot
+Description=Enroll SilverCachy MOK on first boot
 ConditionPathExists=/usr/share/silvercachy/MOK.der
 ConditionPathExists=!/var/lib/silvercachy/.mok-enrolled
 After=local-fs.target

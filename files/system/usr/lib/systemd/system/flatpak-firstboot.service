@@ -1,0 +1,14 @@
+[Unit]
+Description=One-time flatpak install on first boot
+After=network-online.target flatpak-system-helper.service
+ConditionPathExists=!/var/lib/silvercachy/.flatpak-firstboot.done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/flatpak install -y --system io.github.kolunmi.Bazaar app.devsuite.Ptyxis
+ExecStartPost=/usr/bin/mkdir -p /var/lib/silvercachy
+ExecStartPost=/usr/bin/touch /var/lib/silvercachy/.flatpak-firstboot.done
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
