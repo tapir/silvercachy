@@ -12,7 +12,7 @@ modules:
       - source: system
         destination: /
 
-  # Minimal base image without extra GUI or CLI tools
+  # Set up the base image apps/tools
   - type: dnf
     remove:
       auto-remove: true
@@ -36,7 +36,7 @@ modules:
         - gamemode
         - adw-gtk3-theme
 
-  # AppIndicator and KStatusNotifierItem Support
+  # Install AppIndicator and KStatusNotifierItem Gnome Shell extension
   - type: gnome-extensions
     install:
       - 615 
@@ -46,20 +46,20 @@ modules:
     snippets:
       - 'grep -E "^audio:" /usr/lib/group >> /etc/group'
 
-  # CachyOS Addons
+  # Install CachyOS kernel and addons
   - from-file: cachyos.yml
   
-  # Nvidia modules and userspace
+  # Install Nvidia modules and userspace
   - from-file: nvidia.yml
 
   # Needed services
   - type: systemd
     system:
       enabled:
-        - podman.socket
-        - flatpak-firstboot.service
-        - hostname-firstboot.service
-        - mok-enroll-firstboot.service
+        - podman.socket                 # needed for flatpaks to access toolbox containers
+        - flatpak-firstboot.service     # installs the default flatpaks
+        - hostname-firstboot.service    # sets static hostname to silvercachy
+        - mok-enroll-firstboot.service  # enrolls kernel and modules signing key for secureboot
 
   # Sign kernel and modules recursively
   - type: script
@@ -88,4 +88,5 @@ modules:
       NAME: SilverCachy
       PRETTY_NAME: SilverCachy - Fedora Silverblue with CachyOS Kernel
 
+  # Sign container image
   - type: signing

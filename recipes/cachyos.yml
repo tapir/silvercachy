@@ -17,6 +17,7 @@ modules:
       cleanup: true
       copr:
         - bieszczaders/kernel-cachyos-lto
+        - bieszczaders/kernel-cachyos-addons
     remove:
       auto-remove: false
       packages:
@@ -28,6 +29,7 @@ modules:
         - kernel-modules-extra
         - kernel-devel
         - kernel-devel-matched
+        - zram-generator-defaults
     install:
       skip-unavailable: true
       packages:
@@ -36,28 +38,13 @@ modules:
         - kernel-cachyos-lto-core
         - kernel-cachyos-lto-modules
         - kernel-cachyos-lto-devel-matched
-
-  - type: script
-    snippets:
-    - |
-      mv -f /usr/lib/kernel/install.d/05-rpmostree.install.bak /usr/lib/kernel/install.d/05-rpmostree.install
-      mv -f /usr/lib/kernel/install.d/50-dracut.install.bak /usr/lib/kernel/install.d/50-dracut.install 
-
-  - type: dnf
-    repos:
-      cleanup: true
-      copr:
-        - bieszczaders/kernel-cachyos-addons
-    remove:
-      packages:
-        - zram-generator-defaults
-    install:
-      skip-unavailable: true
-      packages:
         - cachyos-settings
         - scx-scheds
         - scx-tools
 
   - type: script
     snippets:
-      - "rm /usr/bin/game-performance"
+    - |
+      mv -f /usr/lib/kernel/install.d/05-rpmostree.install.bak /usr/lib/kernel/install.d/05-rpmostree.install
+      mv -f /usr/lib/kernel/install.d/50-dracut.install.bak /usr/lib/kernel/install.d/50-dracut.install 
+      rm /usr/bin/game-performance

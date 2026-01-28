@@ -3,7 +3,9 @@
 modules:
   - type: dnf
     repos:
+      cleanup: true
       files:
+        - https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo
         - https://negativo17.org/repos/fedora-nvidia.repo
 
   - type: script
@@ -15,10 +17,7 @@ modules:
         akmods --force --verbose --kernels "$(rpm -q "kernel-cachyos-lto" --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')" --kmod "nvidia"
         mv /usr/sbin/akmodsbuild.backup /usr/sbin/akmodsbuild
 
-  - type: dnf
-    repos:
-      files:
-        - https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo
+  - type: dnf   
     install:
       skip-unavailable: true
       packages:
@@ -39,13 +38,9 @@ modules:
         - nvidia-container-toolkit
     remove:
         packages:
+          - nvidia-kmod-common
           - akmod-nvidia
           - akmods
-    repos:
-      files:
-        remove:
-          - fedora-nvidia.repo
-          - nvidia-container-toolkit.repo
 
   - type: script
     snippets:
