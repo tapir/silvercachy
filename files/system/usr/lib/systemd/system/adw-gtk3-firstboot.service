@@ -1,6 +1,7 @@
 [Unit]
 Description=Flatpak GTK overrides and masks on first boot
-After=flatpak-system-helper.service
+After=flatpak-firstboot.service
+Requires=flatpak-firstboot.service
 ConditionPathExists=!/var/lib/silvercachy/.adw-gtk3-firstboot.done
 
 [Service]
